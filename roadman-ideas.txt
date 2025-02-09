@@ -2,3 +2,4 @@ how the game will be structured:
 
 there will be a main file that handles user input (which for "version 1" will be text commands) and game logic 
 and a board generator which will be used to make the nessecary boards, the whole thing will be written in c
+sigma
