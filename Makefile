@@ -4,6 +4,9 @@ all: board_test board.o board_print.o
 
 run:all
 	./board_test
+
+clean : 
+	rm *.o board_test
 #object files: 
 	#src
 board.o:src/board.c
@@ -19,6 +22,3 @@ board_test.o:tests/board_test.c
 board_test:board_test.o board.o board_print.o
 	gcc -o board_test board.o board_print.o board_test.o
 
-
-clean : 
-	rm *.o board_test

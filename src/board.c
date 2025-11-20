@@ -28,8 +28,8 @@ static void shuffle (int* array, int size) {
 static void update_value(Board board, Position pos, int width, int height) {
   if (pos.y+1<height) board[pos.x][pos.y+1].value++;
   if (pos.x+1<width)  board[pos.x+1][pos.y].value++;
-  if (pos.y-1>0) board[pos.x][pos.y-1].value++;
-  if (pos.x-1>0) board[pos.x-1][pos.y].value++;
+  if (pos.y>0) board[pos.x][pos.y-1].value++;
+  if (pos.x>0) board[pos.x-1][pos.y].value++;
   if (pos.x != 0 && pos.y != 0) board[pos.x-1][pos.y-1].value++;
   if (pos.x != 0 && pos.y+1 < height) board[pos.x-1][pos.y+1].value++;
   if (pos.x != width-1 && pos.y+1 < height) board[pos.x+1][pos.y+1].value++;
@@ -49,9 +49,8 @@ void board_fill(Board board, int width, int height, int mines, Position init_pos
   // Fill up the board with mines and update the surrounding tiles
   for (int i = 0; i < mines; i ++) {
     Position pos = double_index(index_array[i], width);
-    Tile t = board[pos.x][pos.y];
-    t.type = MINE;
-    t.value = -1; 
+    board[pos.x][pos.y].type= MINE ;
+    board[pos.x][pos.y].value=5;
     update_value(board, pos, width, height);
   } 
   return;
@@ -73,6 +72,7 @@ Board board_create(int width, int height, int mines, Position init_pos) {
       curr_tile.value = 0;
       curr_tile.flag = false;
       curr_tile.revealed = false;
+      board[i][j]= curr_tile;
     }
   }
   return board;
