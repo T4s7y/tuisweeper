@@ -23,8 +23,16 @@ typedef struct {
   bool revealed; // For printing purposes
 } Tile;
 
-typedef Tile** Board;
+typedef struct {
+  Tile** tiles; // Array of tiles
+  int width; // Board's width
+  int height; // Board's height
+  int mines; // Number of total mines in board
+  Position first_pos; // The player's first played tile
+} Board;
+
+//typedef Tile** Board;
 
 Board board_create(int width, int height, int mines, Position init_pos);
 
-void board_fill(Board board, int width, int height, int mines, Position init_pos);
+void board_fill(Board board);

@@ -12,9 +12,9 @@ int main(void){
   int mines = 10;
   Board board = board_create(width, height, mines, pos);
   printf("before fill\n");
-  print_board(board, width, height);
-  board_fill(board, width, height, mines, pos);
+  print_board(board);
+  board_fill(board);
   printf("after fill\n");
-  print_board(board, width, height);
+  print_board(board);
 }
 
