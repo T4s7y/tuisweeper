@@ -4,7 +4,7 @@
 #include "../include/board.h"
 #include "../include/board_print.h"
 
-void print_line(char middle,char edge, int lenght){
+static void print_line(char middle,char edge, int lenght){
   printf("   ");
   printf("%c",edge);
     for (int j=0; j<lenght*2-1;j++)printf("%c",middle);
@@ -24,7 +24,7 @@ void print_board(Board board) {
     printf(" %d",i+1);
     }
     else{
-      printf("%d",i+1);
+      printf(" %d",i+1);
     }
   }
   printf("\n");
@@ -34,32 +34,22 @@ void print_board(Board board) {
   //board itself
   for (int i = 0; i < board.height; i++) {
     //printing vertical numbers
-    if (i<9){
-    printf("  %d",i+1);
-    }
-    else if(i<99){
+    if (i<9)
+      printf("  %d",i+1);
+    else if(i<99)
       printf (" %d",i+1);
-    }
-    else{
+    else
       printf("%d",i+1);
-    }
 
     for (int j = 0; j < board.width; j++) {
-//      printf("%d",(int)board.tiles[j][i].flag);
-      if(board.tiles[j][i].flag){
-         // printf("were'in"); 
-        printf("%c%c",vertical_line,flag);
-      }
+      if(board.tiles[j][i].flag)
+        printf("%c%c",vertical_line,flag); 
       else if (!board.tiles[j][i].cleared) 
         printf("%c%c",vertical_line,empty);        
-      else if(board.tiles[j][i].flag){
-         // printf("were'in"); 
-        printf("%c%c",vertical_line,flag);
-      }
-      else{
+      else
         printf("%c%d",vertical_line, board.tiles[j][i].value);
-      }
     }
+
     printf("%c\n",vertical_line);
     if (i!=board.height-1)print_line(horizontal_line,vertical_line,board.width);
   }

@@ -8,7 +8,7 @@
 #define MAX_WIDTH 100
 #define MAX_HEIGHT 100
 //test
-bool consume_rest_of_line(void) {
+static bool consume_rest_of_line(void) {
   int has_extra_char=false; 
   int ch;
   while ((ch = getchar()) != '\n' && ch != EOF) {
@@ -73,7 +73,7 @@ int main(int argc, char* argv[]) {
   char command;
   Position pos;
   int first = scanf("%c %d %d", &command, &pos.x, &pos.y);
-  has_extra_char=consume_rest_of_line();
+  has_extra_char = consume_rest_of_line();
   while (has_extra_char||first != 3 || !check_command(board, command, pos)) {
     printf("Invalid command\n");
     print_command_list();
@@ -89,7 +89,6 @@ int main(int argc, char* argv[]) {
   board_fill(board);
  
   command_translator(command,board,pos);
-  printf("%d",(int)board.tiles[pos.x][pos.y].flag);
   print_board(board);
 
   return 0;
