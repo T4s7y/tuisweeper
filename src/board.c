@@ -50,11 +50,12 @@ void board_fill(Board board) {
   for (int i = 0; i < board.mines; i ++) {
     Position pos = double_index(index_array[i], board.width);
     if (pos.x == board.first_pos.x && pos.y == board.first_pos.y) {
-      update_value(board, double_index(index_array[board.mines], board.width));
+      pos = double_index(index_array[board.mines], board.width);
+      board.tiles[pos.x][pos.y].type = MINE;
+      update_value(board, pos);
       continue;
     }
     board.tiles[pos.x][pos.y].type= MINE ;
-    board.tiles[pos.x][pos.y].value=5;
     update_value(board, pos);
   } 
   return;
@@ -75,7 +76,7 @@ Board board_create(int width, int height, int mines, Position init_pos) {
       curr_tile.pos.y = j+1;
       curr_tile.value = 0;
       curr_tile.flag = false;
-      curr_tile.revealed = false;
+      curr_tile.cleared = false;
       board.tiles[i][j]= curr_tile;
     }
   }

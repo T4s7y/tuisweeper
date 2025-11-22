@@ -20,7 +20,7 @@ typedef struct {
   Position pos; // The tiles coordinates
   int value;
   bool flag;
-  bool revealed; // For printing purposes
+  bool cleared; // For printing purposes
 } Tile;
 
 typedef struct {
@@ -30,8 +30,6 @@ typedef struct {
   int mines; // Number of total mines in board
   Position first_pos; // The player's first played tile
 } Board;
-
-//typedef Tile** Board;
 
 Board board_create(int width, int height, int mines, Position init_pos);
 
