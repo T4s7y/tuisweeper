@@ -4,12 +4,13 @@
 
 #include "../include/board.h"
 
+// Turns double index to single index
 static int single_index(int x, int y, int max) {
   return x + y*max;
 }
 
+// Turns single index to double index
 static Position double_index(int n, int max) {
-
   Position pos;
   pos.x = n % max;
   pos.y = n/max;
@@ -96,14 +97,12 @@ Board board_create(int width, int height, int mines) {
   // Initialize board with TILES 
   for (int i = 0; i < width; i++) {
     for (int j = 0; j < height; j++) {
-      Tile curr_tile = board.tiles[i][j];
-      curr_tile.type = 1;
-      curr_tile.pos.x = i;
-      curr_tile.pos.y = j;
-      curr_tile.value = 0;
-      curr_tile.flag = false;
-      curr_tile.cleared = false;
-      board.tiles[i][j]= curr_tile;
+      board.tiles[i][j].type = TILE;
+      board.tiles[i][j].pos.x = i;
+      board.tiles[i][j].pos.y = j;
+      board.tiles[i][j].value = 0;
+      board.tiles[i][j].flag = false;
+      board.tiles[i][j].cleared = false;
     }
   }
   board.width = width;
