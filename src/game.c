@@ -72,7 +72,7 @@ int main(int argc, char* argv[]) {
     }
     command_translator(command,board,pos);
     if (*board.lost == true) {
-      printf("Dumbahh\n");
+      print_board(board);
       break;
     }
     print_board(board);

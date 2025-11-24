@@ -42,6 +42,10 @@ void print_board(Board board) {
       printf("%d",i+1);
 
     for (int j = 0; j < board.width; j++) {
+      if (*board.lost && board.tiles[j][i].type == MINE) { 
+        printf("%c%c", vertical_line, bomb);
+        continue; 
+      }
       if(board.tiles[j][i].flag)
         printf("%c%c",vertical_line,flag); 
       else if (!board.tiles[j][i].cleared) 
@@ -49,6 +53,7 @@ void print_board(Board board) {
       else
         printf("%c%d",vertical_line, board.tiles[j][i].value);
     }
+    
 
     printf("%c\n",vertical_line);
     if (i!=board.height-1)print_line(horizontal_line,vertical_line,board.width);
