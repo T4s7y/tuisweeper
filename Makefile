@@ -1,10 +1,15 @@
 #variables
-easy=10 10 9
 #shortcuts
 all: game board_test board.o board_print.o commands.o
 
+beginner: game  
+	./game beginner
+intermediate: game  
+	./game intermediate
+expert: game  
+	./game expert
 run: game
-	./game $(easy)
+	./game beginner
 
 tests: board_test
 	./board_test

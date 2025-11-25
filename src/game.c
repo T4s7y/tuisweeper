@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <string.h>
 #include <time.h>
 
 #include "../include/board.h"
@@ -19,30 +20,57 @@ static bool consume_rest_of_line(void) {
   }
   return has_extra_char;
 }
-
+const char* difficulties[]={"beginner","intermediate","expert"};
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
   srand(time(NULL));
-  if (argc != 4) {
-    printf("Enter board's dimensions(width, height) and number of mines\n");
+  if (argc!=2 &&argc != 4) {
+    
+    printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
     return 1;
   }
-  int width = atoi(argv[1]);
-  if (width <= 0 || width >= MAX_WIDTH) {
-    printf("Invalid width\n");
-    return 1;
-  }
+ int width,height,mines; 
+  if (argc==2){
+      if(strcmp(argv[1],difficulties[0])==0){
+        width=10;
+        height=10;
+        mines=9;
+      }
+      else if(strcmp(argv[1],difficulties[1])==0){
+        width=16;
+        height=16;
+        mines=40;
+      }
+      else if (strcmp(argv[1],difficulties[2])==0){
+        width=30;
+        height=16;
+        mines=99;
+      }
+      else {
+      printf("invalid difficulty \n");
+      return 1; 
+      }
+    
+    }
 
-  int height = atoi(argv[2]);
-  if (height <= 0 || height >= MAX_HEIGHT) {
-    printf("Invalid height\n");
-    return 1;
-  }
+  else {
+    width = atoi(argv[1]);
+    if (width <= 0 || width >= MAX_WIDTH) {
+      printf("Invalid width\n");
+      return 1;
+    }
 
-  int mines = atoi(argv[3]);
-  if (mines <= 0 || mines >= width*height) {
-    printf("Invalid amount of mines\n");
-    return 1;
+    height = atoi(argv[2]);
+    if (height <= 0 || height >= MAX_HEIGHT) {
+      printf("Invalid height\n");
+      return 1;
+    }
+
+    mines = atoi(argv[3]);
+    if (mines <= 0 || mines >= width*height) {
+      printf("Invalid amount of mines\n");
+      return 1;
+    }
   }
 
   bool win = false;
@@ -66,7 +94,9 @@ int main(int argc, char* argv[]) {
     pos.x--;
     pos.y--;
     if (first_round) {
-      board.first_pos = pos; 
+      if (command =='c')
+        board.first_pos=pos;
+      
       board_fill(board);
       first_round = false;
     }
