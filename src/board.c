@@ -38,11 +38,8 @@ void board_fill(Board board) {
   // Initialize an array with indexes and shuffle it to pick random spots for mines
   int index_array[board.width * board.height];
   for (int i = 0; i < board.width * board.height; i++) 
-    //if (i != single_index(init_pos.x, init_pos.y, width)) 
     index_array[i] = i;
-  
   shuffle(index_array, board.width * board.height);
-
   // Fill up the board with mines and update the surrounding tiles
   for (int i = 0; i < board.mines; i ++) {
     Position pos = double_index(index_array[i], board.width);
@@ -74,16 +71,15 @@ Board board_create(int width, int height, int mines) {
   board.width = width;
   board.height = height;
   board.mines = mines;
+  Position pos;
+  //we initialize first_pos with a random value in case the user doesn't set an acutal first position by clearing a mine 
+  pos.x=(rand()%board.width)+1;
+  pos.y=(rand()%board.height)+1;
+  board.first_pos=pos;
   board.cleared_tiles = malloc(sizeof(int));
   *board.cleared_tiles = 0;
   board.lost = malloc(sizeof(bool));
   *board.lost = false;
-  Position pos;
-  //we initialize first_pos with a random value in case the user doesn't set an acutal first position by clearing a mine 
-  
-  pos.x=(rand()%board.width)+1;
-  pos.y=(rand()%board.height)+1;
-  board.first_pos=pos;
   return board;
 }
 

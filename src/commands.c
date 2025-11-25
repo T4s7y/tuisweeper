@@ -27,7 +27,7 @@ void command_translator(char input,Board board,Position pos){
 }
 void clear_tile(Board board, Position pos) {
   if (board.tiles[pos.x][pos.y].flag){
-    printf("this tile is flagged, unflagg it if you would like to clear it \n");
+    printf("this tile is flagged, unflag it if you would like to clear it \n");
     return;
   }
   if (board.tiles[pos.x][pos.y].type == MINE) {
@@ -41,7 +41,7 @@ void clear_tile(Board board, Position pos) {
   if (board.tiles[pos.x][pos.y].value == 0) 
     for (int dx = (pos.x > 0 ? -1 : 0); dx <= (pos.x<board.width-1 ? 1 : 0); dx++) 
       for (int dy = (pos.y > 0 ? -1 : 0); dy <= (pos.y<board.height-1 ? 1 : 0); dy++) 
-        if ((dx != 0 || dy != 0) && !board.tiles[pos.x+dx][pos.y+dy].cleared) 
+        if (dx != 0 || dy != 0) 
           clear_tile(board, board.tiles[pos.x+dx][pos.y+dy].pos);
   }
 
@@ -49,8 +49,7 @@ void clear_tile(Board board, Position pos) {
     int flags = 0;
     for (int dx = (pos.x > 0 ? -1 : 0); dx <= (pos.x<board.width-1 ? 1 : 0); dx++) 
       for (int dy = (pos.y > 0 ? -1 : 0); dy <= (pos.y<board.height-1 ? 1 : 0); dy++) 
-        if (dx != 0 || dy != 0)
-          if (board.tiles[pos.x+dx][pos.y+dy].flag) 
+        if ((dx != 0 || dy != 0) && board.tiles[pos.x+dx][pos.y+dy].flag)
             flags++;
     if (flags != board.tiles[pos.x][pos.y].value)
       return;

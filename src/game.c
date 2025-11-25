@@ -11,7 +11,6 @@
 #define MAX_WIDTH 100
 #define MAX_HEIGHT 100
 
-
 static bool consume_rest_of_line(void) {
   int has_extra_char=false; 
   int ch;
@@ -20,12 +19,13 @@ static bool consume_rest_of_line(void) {
   }
   return has_extra_char;
 }
+
 const char* difficulties[]={"beginner","intermediate","expert"};
+
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
   srand(time(NULL));
   if (argc!=2 &&argc != 4) {
-    
     printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
     return 1;
   }
@@ -73,16 +73,20 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  bool win = false;
+  // Game loop
   Board board = board_create(width, height, mines);
   print_board(board);  
 
-  //in c scanf will get triggered automatically so long as stdin has characterss left, leading to weird behavior when the user inputs unexpected values, to combat this thie "confume rest of line"function practically delets the remaining input after the "first"scanf but that means that commands with garbage after the correct command (ex: c 2 1 asolidfasjflisjfsjij) would be valid, so consume_rest_of_line will return 1 if it actually has to consume somehting and then store it to has_extra_char.
+  //in c scanf will get triggered automatically so long as stdin has characterss left, 
+  //leading to weird behavior when the user inputs unexpected values, 
+  //to combat this thie "confume rest of line"function practically delets the remaining input after the "first"scanf 
+  //but that means that commands with garbage after the correct command (ex: c 2 1 asolidfasjflisjfsjij) would be valid,
+  // so consume_rest_of_line will return 1 if it actually has to consume somehting and then store it to has_extra_char.
   bool first_round = true;
   bool has_extra_char;
   char command;
   Position pos;
-  while (!win) {
+  while (true) {
     int input = scanf("%c %d %d", &command, &pos.x, &pos.y);
     has_extra_char = consume_rest_of_line();
     while (has_extra_char||input != 3 || !check_command(board, command, pos)) {
@@ -94,24 +98,21 @@ int main(int argc, char* argv[]) {
     pos.x--;
     pos.y--;
     if (first_round) {
-      if (command =='c')
+      if (command=='c' || command=='C')
         board.first_pos=pos;
-      
       board_fill(board);
       first_round = false;
     }
     command_translator(command,board,pos);
-    if (*board.lost == true) {
-      print_board(board);
-      break;
-    }
     print_board(board);
+    if (*board.lost == true) 
+      break;
+    // Win condition
     if ((*board.cleared_tiles + board.mines) == board.width*board.height) {
-      win = true;
       printf("You did something\n");
-    }
+      break;
+    } 
   }
-
   board_destroy(board);
   return 0;
 }
