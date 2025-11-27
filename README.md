@@ -11,6 +11,12 @@ git clone https://github.com/username-temporary/clisweeper
 cd clisweeper
 make install
 ```
+alternatively to compile it and run it without adding it to usr/bin as follows:
+```bash
+git clone https://github.com/username-temporary/clisweeper
+cd clisweeper
+make game 
+```
 ## uninstall
 while in the directory where the repository was cloned 
 ```bash
