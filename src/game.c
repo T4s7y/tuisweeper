@@ -97,25 +97,17 @@ int main(int argc, char* argv[]) {
   refresh();
   while(1) {
     ch = wgetch(board_win);
-    if (ch != KEY_MOUSE)
-     continue; 
+    if ((ch == KEY_MOUSE) && (getmouse(&mouse) == OK))
+      pos = (Position){mouse.x-x_offset, mouse.y-y_offset};
     else
-      if (getmouse(&mouse) == OK) {
-        pos.x = mouse.x-x_offset;
-        pos.y = mouse.y-y_offset;
-      }
-      else continue;
+     continue; 
+
     if (!check_command(mouse.bstate, board, pos))
       continue;
 
     if (first_round) {
-      if (mouse.bstate == BUTTON1_CLICKED) {
-        pos.x--;
-        pos.y--;
-        board.first_pos = pos;
-        pos.x++;
-        pos.y++;
-      }
+      if (mouse.bstate == BUTTON1_CLICKED) 
+        board.first_pos = (Position){pos.x-1, pos.y-1};
       board_fill(board);
       first_round = false;
     }
@@ -131,7 +123,6 @@ int main(int argc, char* argv[]) {
       break;
     }
     wrefresh(board_win);
-    
   }
   
 
