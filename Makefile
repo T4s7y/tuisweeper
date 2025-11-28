@@ -1,10 +1,10 @@
 #variables
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 #install and uninstall
-#install: game
-#	sudo cp $(ROOT_DIR)/game /usr/bin/tuisweeper
-#uninstall:
-#	sudo rm /usr/bin/tuisweeper
+install: game
+	sudo cp $(ROOT_DIR)/game /usr/bin/tuisweeper
+uninstall:
+	sudo rm /usr/bin/tuisweeper
 
 #shortcuts
 all: game board_test board.o board_print.o commands.o
