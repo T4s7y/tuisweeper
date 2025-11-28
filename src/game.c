@@ -1,7 +1,8 @@
+#include <ncurses.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <string.h>
 #include <time.h>
 
 #include "../include/board.h"
@@ -11,21 +12,12 @@
 #define MAX_WIDTH 100
 #define MAX_HEIGHT 100
 
-static bool consume_rest_of_line(void) {
-  int has_extra_char=false; 
-  int ch;
-  while ((ch = getchar()) != '\n' && ch != EOF) {
-    if (ch!=' ')has_extra_char=true;
-  }
-  return has_extra_char;
-}
-
-const char* difficulties[]={"beginner","intermediate","expert"};
+char* difficulties[] = {"beginner", "intermediate", "expert"};
 
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
   srand(time(NULL));
-  if (argc!=2 &&argc != 4) {
+  if (argc != 2 && argc != 4) {
     printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
     return 1;
   }
@@ -73,46 +65,48 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  // Game loop
-  Board board = board_create(width, height, mines);
-  print_board(board);  
 
-  //in c scanf will get triggered automatically so long as stdin has characterss left, 
-  //leading to weird behavior when the user inputs unexpected values, 
-  //to combat this thie "confume rest of line"function practically delets the remaining input after the "first"scanf 
-  //but that means that commands with garbage after the correct command (ex: c 2 1 asolidfasjflisjfsjij) would be valid,
-  // so consume_rest_of_line will return 1 if it actually has to consume somehting and then store it to has_extra_char.
-  bool first_round = true;
-  bool has_extra_char;
-  char command;
-  Position pos;
-  while (true) {
-    int input = scanf("%c %d %d", &command, &pos.x, &pos.y);
-    has_extra_char = consume_rest_of_line();
-    while (has_extra_char||input != 3 || !check_command(board, command, pos)) {
-      printf("Invalid command\n");
-      print_command_list();
-      input = scanf("%c %d %d", &command, &pos.x, &pos.y);
-      has_extra_char=consume_rest_of_line();
+  initscr();
+  noecho();
+  cbreak();
+  keypad(stdscr, TRUE);
+
+  // Window initialisation
+  int x_max, y_max;
+  getmaxyx(stdscr, y_max, x_max);
+  int x_offset = x_max/2-(width/2+1);
+  int y_offset = y_max/2-(height/2+1);
+  // Window should be centered
+  WINDOW * board_win = newwin(height+2, width+2, (y_max/2)-(height/2+1), (x_max/2)-(width/2+1));
+  box(board_win, 0, 0);
+  refresh();
+  wrefresh(board_win);
+  
+  // Mouse input 
+  mousemask(ALL_MOUSE_EVENTS, NULL);
+  mouseinterval(0);
+  MEVENT mouse;
+  int ch;
+  keypad(board_win, TRUE);
+
+  // Board initialisation
+  Board board = board_create(width, height, mines);
+//  print_board(board, board_win);
+  refresh();
+
+  while(1) {
+    ch = wgetch(board_win);
+    if (ch == KEY_MOUSE) 
+     if (getmouse(&mouse) == OK) {
+        mvwprintw(board_win, 1, 1, "M1 at %d %d", mouse.x-x_offset, mouse.y-y_offset, mouse.bstate == BUTTON1_CLICKED);
     }
-    pos.x--;
-    pos.y--;
-    if (first_round) {
-      if (command=='c' || command=='C')
-        board.first_pos=pos;
-      board_fill(board);
-      first_round = false;
-    }
-    command_translator(command,board,pos);
-    print_board(board);
-    if (*board.lost == true) 
-      break;
-    // Win condition
-    if ((*board.cleared_tiles + board.mines) == board.width*board.height) {
-      printf("You did something\n");
-      break;
-    } 
+    mvwprintw(board_win, 2, 1, "%d", mouse.bstate==BUTTON1_CLICKED);
+    wrefresh(board_win);
   }
+  
+
   board_destroy(board);
+  getch();
+  endwin();
   return 0;
 }
