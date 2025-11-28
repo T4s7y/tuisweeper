@@ -65,7 +65,6 @@ int main(int argc, char* argv[]) {
     }
   }
 
-
   initscr();
   noecho();
   cbreak();
@@ -114,11 +113,11 @@ int main(int argc, char* argv[]) {
     
     command_translator(mouse.bstate, board, pos);
     print_board(board, board_win);
-   if (*board.lost){
+    if (*board.lost){
       mvprintw(y_offset,x_offset,"YOU LOSE");
       break;
-   }
-   if((*board.cleared_tiles+mines)== (height*width)){
+    }
+    if((*board.cleared_tiles+mines)== (height*width)){
       mvprintw(y_offset,x_offset,"YOU WIN");
       break;
     }

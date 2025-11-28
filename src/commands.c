@@ -49,11 +49,10 @@ void clear_tile(Board board, Position pos) {
             flags++;
     if (flags != board.tiles[pos.x][pos.y].value)
       return;
-    else 
-      for (int dx = (pos.x > 0 ? -1 : 0); dx <= (pos.x<board.width-1 ? 1 : 0); dx++) 
-        for (int dy = (pos.y > 0 ? -1 : 0); dy <= (pos.y<board.height-1 ? 1 : 0); dy++) 
-          if ((dx != 0 || dy != 0) && !board.tiles[pos.x+dx][pos.y+dy].flag && !board.tiles[pos.x+dx][pos.y+dy].cleared) 
-            clear_tile(board, board.tiles[pos.x+dx][pos.y+dy].pos);
+    for (int dx = (pos.x > 0 ? -1 : 0); dx <= (pos.x<board.width-1 ? 1 : 0); dx++) 
+      for (int dy = (pos.y > 0 ? -1 : 0); dy <= (pos.y<board.height-1 ? 1 : 0); dy++) 
+        if ((dx != 0 || dy != 0) && !board.tiles[pos.x+dx][pos.y+dy].flag && !board.tiles[pos.x+dx][pos.y+dy].cleared) 
+          clear_tile(board, board.tiles[pos.x+dx][pos.y+dy].pos);
   }
   return;
 }
