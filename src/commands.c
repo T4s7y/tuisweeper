@@ -1,35 +1,31 @@
+#include <ncurses.h>
 #include <stdlib.h>
 #include <stdio.h>
 
 #include "../include/board.h"
 #include "../include/commands.h"
 
-bool check_command(Board board, char command, Position pos) {
-  return ((command == 'c' || command == 'C' || command == 'f' || command == 'F' || command == 'u' || command == 'U')
+bool check_command(mmask_t mouse, Board board, Position pos) {
+  return ((mouse == BUTTON1_CLICKED || mouse == BUTTON3_CLICKED)
          && (pos.x > 0 && pos.x <= board.width && pos.y > 0 && pos.y <= board.height));
 }
 
-void command_translator(char input,Board board,Position pos){
-  switch (input){
-    case 'c': 
-    case 'C':
+void command_translator(mmask_t mouse, Board board, Position pos){
+  pos.x--;
+  pos.y--;
+  switch (mouse){
+    case BUTTON1_CLICKED: 
         clear_tile(board, pos);
         break;
-    case 'f':
-    case 'F':
+    case BUTTON3_CLICKED:
         flag_tile(board, pos);
-        break;
-    case 'u':
-    case 'U':
-        unflag_tile(board, pos);
         break;
   }
 }
 void clear_tile(Board board, Position pos) {
-  if (board.tiles[pos.x][pos.y].flag){
-    printf("this tile is flagged, unflag it if you would like to clear it \n");
+  if (board.tiles[pos.x][pos.y].flag)
     return;
-  }
+  
   if (board.tiles[pos.x][pos.y].type == MINE) {
     *board.lost = true;
     return;
@@ -63,18 +59,10 @@ void clear_tile(Board board, Position pos) {
 }
 
 void flag_tile(Board board, Position pos) {
-  if (!board.tiles[pos.x][pos.y].cleared)
+  if (!board.tiles[pos.x][pos.y].cleared && !board.tiles[pos.x][pos.y].flag)
     board.tiles[pos.x][pos.y].flag = true;
   else
-    printf("This tile is cleared, it cannot be flagged\n");
-  return;
-}
-
-void unflag_tile(Board board, Position pos) {
-  if (board.tiles[pos.x][pos.y].flag)
     board.tiles[pos.x][pos.y].flag = false;
-  else 
-    printf("This tile is not flagged, it cannnot be unflagged\n");
   return;
 }
 

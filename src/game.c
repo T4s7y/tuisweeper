@@ -77,31 +77,52 @@ int main(int argc, char* argv[]) {
   int x_offset = x_max/2-(width/2+1);
   int y_offset = y_max/2-(height/2+1);
   // Window should be centered
-  WINDOW * board_win = newwin(height+2, width+2, (y_max/2)-(height/2+1), (x_max/2)-(width/2+1));
+  WINDOW * board_win = newwin(height+2, width+2, y_offset, x_offset);
   box(board_win, 0, 0);
   refresh();
   wrefresh(board_win);
   
   // Mouse input 
   mousemask(ALL_MOUSE_EVENTS, NULL);
-  mouseinterval(0);
   MEVENT mouse;
   int ch;
   keypad(board_win, TRUE);
 
   // Board initialisation
   Board board = board_create(width, height, mines);
-//  print_board(board, board_win);
-  refresh();
+  print_board(board, board_win);
+  Position pos;
+  bool first_round = true;
 
+  refresh();
   while(1) {
     ch = wgetch(board_win);
-    if (ch == KEY_MOUSE) 
-     if (getmouse(&mouse) == OK) {
-        mvwprintw(board_win, 1, 1, "M1 at %d %d", mouse.x-x_offset, mouse.y-y_offset, mouse.bstate == BUTTON1_CLICKED);
+    if (ch != KEY_MOUSE)
+     continue; 
+    else
+      if (getmouse(&mouse) == OK) {
+        pos.x = mouse.x-x_offset;
+        pos.y = mouse.y-y_offset;
+      }
+      else continue;
+    if (!check_command(mouse.bstate, board, pos))
+      continue;
+
+    if (first_round) {
+      if (mouse.bstate == BUTTON1_CLICKED) {
+        pos.x--;
+        pos.y--;
+        board.first_pos = pos;
+        pos.x++;
+        pos.y++;
+      }
+      board_fill(board);
+      first_round = false;
     }
-    mvwprintw(board_win, 2, 1, "%d", mouse.bstate==BUTTON1_CLICKED);
+    command_translator(mouse.bstate, board, pos);
+    print_board(board, board_win);
     wrefresh(board_win);
+    
   }
   
 

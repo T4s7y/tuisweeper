@@ -9,10 +9,17 @@ void print_board(Board board, WINDOW* board_win) {
   char empty = '#';
   char bomb = 'X';
   char flag = 'F';
-  for (int x = 1; x <= board.width; x++)
-    for (int y = 1; y <= board.height; y++)
-      mvwprintw(board_win, y, x, "%c", empty);
-  wrefresh(board_win);
+  for (int x = 1; x <= board.width; x++) {
+    for (int y = 1; y <= board.height; y++) {
+      if (board.tiles[x-1][y-1].flag)
+        mvwprintw(board_win, y, x, "%c", flag);   
+      else if (!board.tiles[x-1][y-1].cleared)
+        mvwprintw(board_win, y, x, "%c", empty);
+      else
+        mvwprintw(board_win, y, x, "%d", board.tiles[x-1][y-1].value);
+      } 
+  }
+  wrefresh(board_win); 
 }
 
 void print_command_list() {
