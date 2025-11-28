@@ -1,20 +1,21 @@
-# CliSweeper
+# TuiSweeper
 
-clisweeper is a cli-controlled game reminiscent (but legally distinct) to the classic pc game [minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game))
+tui sweeper is a fork of clisweeper, cli-controlled game reminiscent (but legally distinct) to the classic pc game [minesweeper](https://en.wikipedia.org/wiki/Minesweeper_(video_game)) 
+that uses the terminal user interface library [Ncurses](https://en.wikipedia.org/wiki/Ncurses)
 
 ## Installation
 
 clone the repository using the following command 
 
 ```bash
-git clone https://github.com/username-temporary/clisweeper
-cd clisweeper
+git clone https://github.com/T4s7y/tuisweeper
+cd tuisweeper
 make install
 ```
 alternatively to compile it and run it without adding it to usr/bin as follows:
 ```bash
-git clone https://github.com/username-temporary/clisweeper
-cd clisweeper
+git clone https://github.com/username-temporary/tuisweeper
+cd tuisweeper
 make game 
 ```
 ## uninstall
@@ -22,124 +23,19 @@ while in the directory where the repository was cloned
 ```bash
 make uninstall
 cd ..
-rm -rf clisweeper 
+rm -rf tuisweeper 
 ```
 
 ## Usage
 ```bash
-clisweeper [difficulty] 
+tuisweeper [difficulty] 
 valid difficulties are: beginner,intermediate,expert
-clisweeper [width] [height] [mines]
+tuisweeper [width] [height] [mines]
 ```
 ## Gameplay 
-after a difficulty has been selected the game will print out a board on the terminal, during gameplay there are 3 valid commands: 
-```bash
-c [x coordinate] [y coordinate]
-```
-will clear the tile in position (x,y)  (the outer numbers can be used to find coordinates easier)
-```bash
-f [x coordinate] [y coordinate]
-```
-will set a flag on the tile in position (x,y)
-```bash
-u [x coordinate] [y coordinate]
-```
-will un-flag the tile on position (x,y) if there's already a flag on said tile 
-## Example gameplay 
-```
-clisweeper beginner
-    1 2 3 4 5 6 7 8 9 10
-   +-------------------+
-  1| | | | | | | | | | |
-   |-------------------|
-  2| | | | | | | | | | |
-   |-------------------|
-  3| | | | | | | | | | |
-   |-------------------|
-  4| | | | | | | | | | |
-   |-------------------|
-  5| | | | | | | | | | |
-   |-------------------|
-  6| | | | | | | | | | |
-   |-------------------|
-  7| | | | | | | | | | |
-   |-------------------|
-  8| | | | | | | | | | |
-   |-------------------|
-  9| | | | | | | | | | |
-   |-------------------|
- 10| | | | | | | | | | |
-   +-------------------+
-c 5 5 
-    1 2 3 4 5 6 7 8 9 10
-   +-------------------+
-  1| | | | | | | |1|0|0|
-   |-------------------|
-  2| | | | |2|1|1|1|0|0|
-   |-------------------|
-  3| | | | |1|0|0|0|0|0|
-   |-------------------|
-  4| | |2|2|1|0|0|0|0|0|
-   |-------------------|
-  5| | |1|0|0|0|0|1|1|1|
-   |-------------------|
-  6| | |1|0|0|1|1|2| | |
-   |-------------------|
-  7| |2|1|0|0|1| |2|1|1|
-   |-------------------|
-  8| |1|0|0|0|1|1|1|0|0|
-   |-------------------|
-  9| |1|0|0|0|0|0|0|0|0|
-   |-------------------|
- 10| |1|0|0|0|0|0|0|0|0|
-   +-------------------+
-f 4 3 
-    1 2 3 4 5 6 7 8 9 10
-   +-------------------+
-  1| | | | | | | |1|0|0|
-   |-------------------|
-  2| | | | |2|1|1|1|0|0|
-   |-------------------|
-  3| | | |F|1|0|0|0|0|0|
-   |-------------------|
-  4| | |2|2|1|0|0|0|0|0|
-   |-------------------|
-  5| | |1|0|0|0|0|1|1|1|
-   |-------------------|
-  6| | |1|0|0|1|1|2| | |
-   |-------------------|
-  7| |2|1|0|0|1| |2|1|1|
-   |-------------------|
-  8| |1|0|0|0|1|1|1|0|0|
-   |-------------------|
-  9| |1|0|0|0|0|0|0|0|0|
-   |-------------------|
- 10| |1|0|0|0|0|0|0|0|0|
-   +-------------------+
-u 4 3
-    1 2 3 4 5 6 7 8 9 10
-   +-------------------+
-  1| | | | | | | |1|0|0|
-   |-------------------|
-  2| | | | |2|1|1|1|0|0|
-   |-------------------|
-  3| | | | |1|0|0|0|0|0|
-   |-------------------|
-  4| | |2|2|1|0|0|0|0|0|
-   |-------------------|
-  5| | |1|0|0|0|0|1|1|1|
-   |-------------------|
-  6| | |1|0|0|1|1|2| | |
-   |-------------------|
-  7| |2|1|0|0|1| |2|1|1|
-   |-------------------|
-  8| |1|0|0|0|1|1|1|0|0|
-   |-------------------|
-  9| |1|0|0|0|0|0|0|0|0|
-   |-------------------|
- 10| |1|0|0|0|0|0|0|0|0|
-   +-------------------+
-```
+unlike cliweeper, tui sweeper is exclusively controlled via mouse input, left click to clear a tile, right click to set a flag and then right click again on a flag to remove it 
+
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first
