@@ -9,19 +9,26 @@
 #include "../include/board_print.h"
 #include "../include/commands.h"
 
-#define MAX_WIDTH 100
-#define MAX_HEIGHT 100
 
 char* difficulties[] = {"beginner", "intermediate", "expert"};
 
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
   srand(time(NULL));
+  //checking for valid inputs 
   if (argc != 2 && argc != 4) {
     printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
     return 1;
   }
  int width,height,mines; 
+  //starting screen calls
+  initscr();
+  noecho();
+  cbreak();
+  keypad(stdscr, TRUE);
+  // Window initialisation
+  int x_max, y_max;
+  getmaxyx(stdscr, y_max, x_max);
   if (argc==2){
       if(strcmp(argv[1],difficulties[0])==0){
         width=10;
@@ -40,6 +47,7 @@ int main(int argc, char* argv[]) {
       }
       else {
       printf("invalid difficulty \n");
+      endwin();
       return 1; 
       }
     
@@ -47,35 +55,31 @@ int main(int argc, char* argv[]) {
 
   else {
     width = atoi(argv[1]);
-    if (width <= 0 || width >= MAX_WIDTH) {
-      printf("Invalid width\n");
+    if (width <= 0 || width >= x_max) {
+      endwin();
+      printf("invalid width, max width = %d\n",x_max-2);
       return 1;
     }
 
     height = atoi(argv[2]);
-    if (height <= 0 || height >= MAX_HEIGHT) {
-      printf("Invalid height\n");
+    if (height <= 0 || height >= y_max) {
+      endwin();
+      printf("invalid height, max height= %d\n",y_max-2);
       return 1;
     }
 
     mines = atoi(argv[3]);
     if (mines <= 0 || mines >= width*height) {
-      printf("Invalid amount of mines\n");
+      endwin();
+      printf("Invalid amount of mines, can't have more than (height*width)-1\n");
       return 1;
     }
   }
 
-  initscr();
-  noecho();
-  cbreak();
-  keypad(stdscr, TRUE);
-
-  // Window initialisation
-  int x_max, y_max;
-  getmaxyx(stdscr, y_max, x_max);
+  // Window should be centered so we calculate an offset to center stuff 
   int x_offset = x_max/2-(width/2+1);
   int y_offset = y_max/2-(height/2+1);
-  // Window should be centered
+
   WINDOW * board_win = newwin(height+2, width+2, y_offset, x_offset);
   box(board_win, 0, 0);
   refresh();
