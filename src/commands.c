@@ -59,15 +59,10 @@ void clear_tile(Board board, Position pos) {
 }
 
 void flag_tile(Board board, Position pos) {
-  if (!board.tiles[pos.x][pos.y].cleared && !board.tiles[pos.x][pos.y].flag){
-    (*board.flags)++;
-    board.tiles[pos.x][pos.y].flag = true;
-  }
-  else if (!board.tiles[pos.x][pos.y].cleared && board.tiles[pos.x][pos.y].flag) {
-    (*board.flags)--;
-    board.tiles[pos.x][pos.y].flag = false;
-  }
-  return;
+  if (board.tiles[pos.x][pos.y].cleared)
+    return;
+  *board.flags = (board.tiles[pos.x][pos.y].flag ? (*board.flags)-1 : (*board.flags)+1);
+  board.tiles[pos.x][pos.y].flag = (board.tiles[pos.x][pos.y].flag ? false : true);
 }
 
 
