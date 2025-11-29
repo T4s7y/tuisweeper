@@ -104,7 +104,22 @@ int main(int argc, char* argv[]) {
 
   // Game loop
   while(1) {
-    ch = wgetch(board_win);
+    //getting board dimensions
+    getmaxyx(stdscr, y_max, x_max);
+    //checking if we need to resize the board
+    if (y_offset != y_max/2-(height/2+1)|| x_offset != x_max/2-(width/2+1)){
+      y_offset= y_max/2-(height/2+1);
+      x_offset= x_max/2-(width/2+1);
+
+      mvwin(board_win,y_offset,x_offset);
+      clear();
+      refresh();
+      wrefresh(board_win);
+    }
+    else {
+      ch = wgetch(board_win);
+    }
+
     if ((ch == KEY_MOUSE) && (getmouse(&mouse) == OK))
       pos = (Position){mouse.x-x_offset, mouse.y-y_offset};
     else
