@@ -26,6 +26,7 @@ typedef struct {
   int height; // Board's height
   int mines; // Number of total mines in board
   Position first_pos; // The player's first played tile
+  int* flags;
   int* cleared_tiles;
   bool* lost;
 } Board;

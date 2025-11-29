@@ -7,21 +7,21 @@
 
 void tile_print(WINDOW * win, int y,int x,char c,int pair){
  // if ( has_colors()&& COLORS>=10&& COLOR_PAIRS)
- if (has_colors()) wattron(win,COLOR_PAIR(pair));
+ if (has_colors())
+    wattron(win,COLOR_PAIR(pair));
+
   mvwaddch(win,y,x,c);
- if (has_colors()) wattroff(win,COLOR_PAIR(pair)); 
+
+ if (has_colors()) 
+    wattroff(win,COLOR_PAIR(pair)); 
 }
 void print_board(Board board, WINDOW* board_win) {
+  //dealing with colors, 0 will be the "base color" of white, 1-8 will be the colors for the numbers 9 will be for flags and 10 for mines
+    //                  base           1         2           3         4         5          6            7            8        flag      bombs 
   int colorboard[]={COLOR_WHITE,COLOR_BLUE,COLOR_GREEN,COLOR_RED,COLOR_BLUE,COLOR_RED,COLOR_CYAN,COLOR_MAGENTA,COLOR_WHITE,COLOR_RED,COLOR_BLACK};
   if(has_colors()){
     start_color();
     refresh();
-    //dealing with colors, 0 will be the "base color" of white, 1-8 will be the colors for the numbers 9 will be for flags and 10 for mines
-    //                  base           1         2           3         4         5          6            7            8        flag      bombs 
-
-    if(can_change_color()){
-    //do this later
-    }
 
     //making the color pairs 
     for (int i=0;i<10;i++){
@@ -54,6 +54,9 @@ void print_board(Board board, WINDOW* board_win) {
         tile_print(board_win,y,x,bomb,10);
     } 
   }
+  //printing numbers on the boarder 
+  box (board_win,0,0);
+  mvwprintw(board_win,0,1,"%d",(board.mines)-(*board.flags));
   wrefresh(board_win); 
 }
 

@@ -73,8 +73,8 @@ Board board_create(int width, int height, int mines) {
   board.mines = mines;
   //we initialize first_pos with a random value in case the user doesn't set an acutal first position by clearing a mine 
   board.first_pos= (Position){(rand()%board.width)+1, (rand()%board.height)+1};
-  board.cleared_tiles = malloc(sizeof(int));
-  *board.cleared_tiles = 0;
+  board.flags= calloc(1,sizeof(int));
+  board.cleared_tiles = calloc(1,sizeof(int));
   board.lost = malloc(sizeof(bool));
   *board.lost = false;
   return board;
