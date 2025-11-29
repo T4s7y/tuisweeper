@@ -30,10 +30,11 @@ typedef struct {
   bool* lost;
 } Board;
 
+// Function that initializes a board with default values
 Board board_create(int width, int height, int mines);
 
+// Filies the board with mines ignoring the first clicked tile
 void board_fill(Board board);
 
-void clear_tile(Board board, Position pos);
-
+// Deallocates all allocated memory
 void board_destroy(Board board);

@@ -9,26 +9,29 @@
 #include "../include/board_print.h"
 #include "../include/commands.h"
 
-
+// Base difficulties
 char* difficulties[] = {"beginner", "intermediate", "expert"};
 
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
   srand(time(NULL));
-  //checking for valid inputs 
   if (argc != 2 && argc != 4) {
     printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
     return 1;
   }
- int width,height,mines; 
-  //starting screen calls
+  int width,height,mines; 
+
+  // Starting screen calls
   initscr();
   noecho();
   cbreak();
   keypad(stdscr, TRUE);
-  // Window initialisation
+
+  // Getting terminal dimensions 
   int x_max, y_max;
   getmaxyx(stdscr, y_max, x_max);
+
+  // Checking for valid inputs 
   if (argc==2){
       if(strcmp(argv[1],difficulties[0])==0){
         width=10;
@@ -76,10 +79,11 @@ int main(int argc, char* argv[]) {
     }
   }
 
-  // Window should be centered so we calculate an offset to center stuff 
+  // Window should be centered  
   int x_offset = x_max/2-(width/2+1);
   int y_offset = y_max/2-(height/2+1);
 
+  // Window initialisation 
   WINDOW * board_win = newwin(height+2, width+2, y_offset, x_offset);
   box(board_win, 0, 0);
   refresh();
@@ -96,8 +100,9 @@ int main(int argc, char* argv[]) {
   print_board(board, board_win);
   Position pos;
   bool first_round = true;
-
   refresh();
+
+  // Game loop
   while(1) {
     ch = wgetch(board_win);
     if ((ch == KEY_MOUSE) && (getmouse(&mouse) == OK))
@@ -117,10 +122,13 @@ int main(int argc, char* argv[]) {
     
     command_translator(mouse.bstate, board, pos);
     print_board(board, board_win);
+
+    // Lose condition
     if (*board.lost){
       mvprintw(y_offset,x_offset,"YOU LOSE");
       break;
     }
+    // Win condition
     if((*board.cleared_tiles+mines)== (height*width)){
       mvprintw(y_offset,x_offset,"YOU WIN");
       break;
@@ -128,7 +136,7 @@ int main(int argc, char* argv[]) {
     wrefresh(board_win);
   }
   
-
+  // Clean up
   board_destroy(board);
   getch();
   endwin();

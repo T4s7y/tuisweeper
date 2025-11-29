@@ -22,6 +22,7 @@ void command_translator(mmask_t mouse, Board board, Position pos){
         break;
   }
 }
+
 void clear_tile(Board board, Position pos) {
   if (board.tiles[pos.x][pos.y].flag)
     return;
