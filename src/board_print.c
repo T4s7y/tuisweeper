@@ -57,6 +57,8 @@ void print_board(Board board, WINDOW* board_win) {
   //printing numbers on the boarder 
   box (board_win,0,0);
   mvwprintw(board_win,0,1,"%d",(board.mines)-(*board.flags));
+  //printing seed
+  mvwprintw(board_win,board.height+1,1,"s:%x",board.seed);
   wrefresh(board_win); 
 }
 

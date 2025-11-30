@@ -14,9 +14,10 @@ char* difficulties[] = {"beginner", "intermediate", "expert"};
 
 // User enters width, height and number of mines 
 int main(int argc, char* argv[]) {
-  srand(time(NULL));
-  if (argc != 2 && argc != 4) {
-    printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n",argv[0],argv[0]);
+  //setting the seed to current time, this will be overwritten if the user inputs their own seed 
+  int seed=time(NULL);
+  if (argc!=2 && argc != 3 && argc != 4 && argc!=5) {
+    printf("usage: \n %s [difficulty] \n valid difficulties are: beginner,intermediate,expert\n%s [width] [height] [mines]\n optionally after a valid input you can enter a seed to revisit a board \n",argv[0],argv[0]);
     return 1;
   }
   int width,height,mines; 
@@ -32,7 +33,7 @@ int main(int argc, char* argv[]) {
   getmaxyx(stdscr, y_max, x_max);
 
   // Checking for valid inputs 
-  if (argc==2){
+  if (argc==2||argc==3){
       if(strcmp(argv[1],difficulties[0])==0){
         width=10;
         height=10;
@@ -53,7 +54,11 @@ int main(int argc, char* argv[]) {
       printf("invalid difficulty \n");
       return 1; 
       }
-    
+      if (argc==3){
+
+      seed=(int)strtol(argv[2],NULL,16);
+
+      }
     }
 
   else {
@@ -77,6 +82,9 @@ int main(int argc, char* argv[]) {
       printf("Invalid amount of mines, can't have more than (height*width)-1\n");
       return 1;
     }
+    if (argc==5){
+      seed=(int)strtol(argv[4],NULL,16);
+    }
   }
 
   // Window should be centered  
@@ -96,7 +104,8 @@ int main(int argc, char* argv[]) {
   keypad(board_win, TRUE);
 
   // Board initialisation
-  Board board = board_create(width, height, mines);
+  Board board = board_create(width, height, mines,seed);
+  //setting the seed
   print_board(board, board_win);
   Position pos;
   bool first_round = true;

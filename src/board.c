@@ -51,7 +51,7 @@ void board_fill(Board board) {
   return;
 }
 
-Board board_create(int width, int height, int mines) {
+Board board_create(int width, int height, int mines,int seed) {
   Board board;
   board.tiles = malloc(width*sizeof(Tile*));
 
@@ -68,6 +68,9 @@ Board board_create(int width, int height, int mines) {
       board.tiles[i][j].cleared = false;
     }
   }
+
+  board.seed =seed;
+  srand(seed);
   board.width = width;
   board.height = height;
   board.mines = mines;
