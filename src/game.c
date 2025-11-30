@@ -49,8 +49,8 @@ int main(int argc, char* argv[]) {
         mines=99;
       }
       else {
-      printf("invalid difficulty \n");
       endwin();
+      printf("invalid difficulty \n");
       return 1; 
       }
     
