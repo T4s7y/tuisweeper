@@ -25,6 +25,7 @@ typedef struct {
   int width; // Board's width
   int height; // Board's height
   int mines; // Number of total mines in board
+  int seed; // the seed used to generate the board
   Position first_pos; // The player's first played tile
   int* flags;
   int* cleared_tiles;
@@ -32,7 +33,7 @@ typedef struct {
 } Board;
 
 // Function that initializes a board with default values
-Board board_create(int width, int height, int mines);
+Board board_create(int width, int height, int mines,int seed);
 
 // Filies the board with mines ignoring the first clicked tile
 void board_fill(Board board);

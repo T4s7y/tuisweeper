@@ -48,7 +48,7 @@ void board_fill(Board board) {
   return;
 }
 
-Board board_create(int width, int height, int mines) {
+Board board_create(int width, int height, int mines, int seed) {
   Board board;
   board.tiles = malloc(width*sizeof(Tile*));
 
