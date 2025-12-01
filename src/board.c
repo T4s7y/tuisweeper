@@ -11,10 +11,7 @@ static int single_index(int x, int y, int max) {
 
 // Turns single index to double index
 static Position double_index(int n, int max) {
-  Position pos;
-  pos.x = n % max;
-  pos.y = n/max;
-  return pos;
+  return (Position){n % max, n/max};
 }
 
 static void shuffle (int* array, int size) {
@@ -61,8 +58,7 @@ Board board_create(int width, int height, int mines) {
   for (int i = 0; i < width; i++) {
     for (int j = 0; j < height; j++) {
       board.tiles[i][j].type = TILE;
-      board.tiles[i][j].pos.x = i;
-      board.tiles[i][j].pos.y = j;
+      board.tiles[i][j].pos = (Position){i, j};
       board.tiles[i][j].value = 0;
       board.tiles[i][j].flag = false;
       board.tiles[i][j].cleared = false;
@@ -84,6 +80,7 @@ void board_destroy(Board board) {
   for (int i = 0; i < board.width; i++)
     free(board.tiles[i]);
   free(board.tiles);
+  free(board.flags);
   free(board.cleared_tiles);
   free(board.lost);
   return;
