@@ -138,7 +138,7 @@ int main(int argc, char* argv[]) {
       continue;
 
     if (first_round) {
-      if (mouse.bstate == BUTTON1_CLICKED) 
+      if (mouse.bstate == BUTTON1_CLICKED||mouse.bstate==BUTTON1_RELEASED) 
         board.first_pos = (Position){pos.x-1, pos.y-1};
       board_fill(board);
       first_round = false;
