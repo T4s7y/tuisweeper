@@ -1,4 +1,6 @@
 #variables
+CC = gcc 
+CFLAGS = -Wall -Werror
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
 #install and uninstall
 install: game
@@ -26,24 +28,24 @@ clean :
 #object files: 
 	#src
 board.o:src/board.c include/board.h
-	gcc -c src/board.c
+	$(CC) $(CFLAGS) -c src/board.c
 	
 board_print.o:src/board_print.c include/board_print.h include/board.h
-	gcc -c src/board_print.c -lncurses
+	$(CC) $(CFLAGS) -c src/board_print.c -lncurses
 
 commands.o: src/commands.c include/commands.h 
-	gcc -c src/commands.c
+	$(CC) $(CFLAGS) -c src/commands.c
 
 game.o:src/game.c include/board.h include/board_print.h include/commands.h
-	gcc -c src/game.c -lncurses
+	$(CC) $(CFLAGS) -c src/game.c -lncurses
 	#test
 board_test.o:tests/board_test.c include/board_print.h 
-	gcc -c tests/board_test.c
+	$(CC) $(CFLAGS) -c tests/board_test.c
 
 #executable
 game: game.o board.o board_print.o commands.o
-	gcc -o game game.o board.o board_print.o commands.o -lncurses
+	$(CC) $(CFLAGS) -o game game.o board.o board_print.o commands.o -lncurses
 	
 board_test:board_test.o board.o board_print.o commands.o
-	gcc -o board_test board.o board_print.o board_test.o commands.o -lncurses
+	$(CC) $(CFLAGS) -o board_test board.o board_print.o board_test.o commands.o -lncurses
 

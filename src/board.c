@@ -4,11 +4,6 @@
 
 #include "../include/board.h"
 
-// Turns double index to single index
-static int single_index(int x, int y, int max) {
-  return x + y*max;
-}
-
 // Turns single index to double index
 static Position double_index(int n, int max) {
   return (Position){n % max, n/max};
