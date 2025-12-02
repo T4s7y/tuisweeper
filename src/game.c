@@ -5,9 +5,9 @@
 #include <stdbool.h>
 #include <time.h>
 
-#include "../include/board.h"
-#include "../include/board_print.h"
-#include "../include/commands.h"
+#include "board.h"
+#include "board_print.h"
+#include "commands.h"
 
 // Base difficulties
 char* difficulties[] = {"beginner", "intermediate", "expert"};

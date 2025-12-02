@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-#include "../include/board.h"
-#include "../include/commands.h"
+#include "board.h"
+#include "commands.h"
 
 bool check_command(mmask_t mouse, Board board, Position pos) {
   return ((mouse == BUTTON1_CLICKED||mouse==BUTTON1_RELEASED||mouse==BUTTON3_RELEASED|| mouse == BUTTON3_CLICKED)

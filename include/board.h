@@ -40,3 +40,4 @@ void board_fill(Board board);
 
 // Deallocates all allocated memory
 void board_destroy(Board board);
+

@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/board.h"
-#include "../include/board_print.h"
+#include "board.h"
+#include "board_print.h"
 
 void tile_print(WINDOW * win, int y,int x,char c,int pair){
  // if ( has_colors()&& COLORS>=10&& COLOR_PAIRS)
